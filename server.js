@@ -1,6 +1,14 @@
 import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Load environment variables from server/.env
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, "server", ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,12 +46,13 @@ app.post("/api/adapt", async (req, res) => {
     });
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are an instructional adaptation copilot for teachers." },
         { role: "user", content: prompt }
       ],
-      temperature: 0.4
+      temperature: 0.4,
+      response_format: { type: "json_object" }
     });
 
     const raw = completion.choices[0].message.content;

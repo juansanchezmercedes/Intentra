@@ -1,3 +1,6 @@
+// Backend URL configuration for Vercel <-> Render connection
+const BACKEND_URL = window.__BACKEND_URL || "https://readbridge-backend.onrender.com";
+
 const btn = document.querySelector(".btn-primary");
 const status = document.querySelector(".status-text");
 const placeholder = document.querySelector(".output-placeholder");
@@ -9,7 +12,7 @@ btn.addEventListener("click", async () => {
   const accessibilityRange = document.querySelectorAll("input")[2].value;
 
   if (!originalText) {
-    alert("Please paste an original text.");
+    status.textContent = "Please paste an original text.";
     return;
   }
 
@@ -17,7 +20,8 @@ btn.addEventListener("click", async () => {
   btn.disabled = true;
 
   try {
-    const res = await fetch("/api/adapt", {
+    console.log("Sending to:", `${BACKEND_URL}/api/adapt`);
+    const res = await fetch(`${BACKEND_URL}/api/adapt`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -63,8 +67,8 @@ btn.addEventListener("click", async () => {
     status.textContent = "Draft ready for review";
 
   } catch (err) {
-    console.error(err);
-    status.textContent = "Error drafting adaptation";
+    console.error("Fetch error:", err);
+    status.textContent = `Error: ${err.message || "Failed to connect to backend"}. Check console.`;
   } finally {
     btn.disabled = false;
   }
