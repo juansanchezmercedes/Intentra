@@ -46,6 +46,27 @@ btn.addEventListener("click", async () => {
   status.classList.add("loading");
   btn.disabled = true;
 
+  // Show loading animation
+  placeholder.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Generating adaptations</div>
+      <div class="loading-subtext">
+        This may take a moment
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div style="margin-top: 32px; width: 100%; max-width: 400px;">
+        <div class="shimmer-box"></div>
+        <div class="shimmer-box"></div>
+        <div class="shimmer-box"></div>
+      </div>
+    </div>
+  `;
+
   try {
     console.log("Sending to:", `${BACKEND_URL}/api/adapt`);
     const res = await fetch(`${BACKEND_URL}/api/adapt`, {
