@@ -1,15 +1,15 @@
-# ReadBridge
+# VerityCompany
 
-**AI-powered reading assignments for teachers.**
+**Instructional Adaptation Copilot for Teachers**
 
-Create student-ready guided reading assignments in seconds. You choose the skills. You review everything.
+Create student-ready instructional materials in seconds. You choose the skills. You review everything.
 
 ---
 
 ## Quick Start (Local Dev)
 
 ```bash
-cd /Users/juansanchez/ReadBridge
+cd /Users/juansanchez/VerityCompany
 
 # Install dependencies
 npm install

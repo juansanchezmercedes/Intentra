@@ -1,74 +1,72 @@
-// Backend URL: default to deployed Render backend; override via window.__BACKEND_URL if provided
-const BACKEND_URL = window.__BACKEND_URL || "https://readbridge-backend.onrender.com";
+const btn = document.querySelector(".btn-primary");
+const status = document.querySelector(".status-text");
+const placeholder = document.querySelector(".output-placeholder");
 
-// Grabs DOM elements once for reuse
-const generateBtn = document.getElementById("generateBtn");
-const status = document.getElementById("status");
-const placeholder = document.getElementById("placeholder");
-const output = document.getElementById("output");
+btn.addEventListener("click", async () => {
+  const originalText = document.querySelector("textarea").value;
+  const preserveNotes = document.querySelectorAll("input")[0].value;
+  const instructionalGoal = document.querySelectorAll("input")[1].value;
+  const accessibilityRange = document.querySelectorAll("input")[2].value;
 
-const passage = document.getElementById("passage");
-const vocab = document.getElementById("vocab");
-const questions = document.getElementById("questions");
-const notes = document.getElementById("notes");
-
-function setStatus(text) {
-  status.innerText = text;
-}
-
-function validateInputs() {
-  const focus = document.getElementById("readingFocus").value.trim();
-  const level = document.getElementById("readingLevel").value.trim();
-  const topic = document.getElementById("topic").value.trim();
-
-  if (!focus || !level || !topic) {
-    setStatus("Please add focus, level, and student interest.");
-    return null;
+  if (!originalText) {
+    alert("Please paste an original text.");
+    return;
   }
 
-  return {
-    readingFocus: focus,
-    readingLevel: level,
-    topic,
-    gradeBand: document.getElementById("gradeBand").value,
-    assignmentGoal: document.getElementById("assignmentGoal").value.trim()
-  };
-}
-
-async function generateAssignment() {
-  const payload = validateInputs();
-  if (!payload) return;
-
-  setStatus("Generating…");
-  generateBtn.disabled = true;
+  status.textContent = "Drafting supports…";
+  btn.disabled = true;
 
   try {
-    const response = await fetch(`${BACKEND_URL}/generate`, {
+    const res = await fetch("/api/adapt", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        originalText,
+        preserveNotes,
+        instructionalGoal,
+        accessibilityRange,
+        supports: []
+      })
     });
 
-    if (!response.ok) {
-      throw new Error(`Server error (${response.status})`);
-    }
+    const data = await res.json();
 
-    const result = await response.json();
+    placeholder.innerHTML = `
+      <div class="warning-banner">
+        ⚠️ Review all adaptations before sharing with students.
+      </div>
 
-    placeholder.style.display = "none";
-    output.style.display = "block";
-    setStatus("Done");
+      <h4>Adapted Text (Draft)</h4>
+      <div class="content-box">${data.adaptedText}</div>
 
-    passage.innerHTML = result.passage || "—";
-    vocab.innerHTML = result.vocab || "—";
-    questions.innerHTML = result.questions || "—";
-    notes.innerText = result.notes || "—";
+      <h4>Supports Added</h4>
+      <div class="content-box">
+        <ul>${data.supportsAdded.map(s => `<li>${s}</li>`).join("")}</ul>
+      </div>
+
+      <h4>Potential Meaning Drift</h4>
+      <div class="content-box">
+        ${
+          data.potentialDriftFlags.length === 0
+            ? "No significant risks detected. Review still recommended."
+            : data.potentialDriftFlags.map(f => `
+              <p><strong>${f.severity.toUpperCase()}</strong>: ${f.issue}<br/>
+              <em>${f.whyItMatters}</em></p>
+            `).join("")
+        }
+      </div>
+
+      <h4>Teacher Notes</h4>
+      <div class="content-box">${data.teacherNotes}</div>
+    `;
+
+    status.textContent = "Draft ready for review";
+
   } catch (err) {
     console.error(err);
-    setStatus("Error generating assignment. Please try again.");
+    status.textContent = "Error drafting adaptation";
   } finally {
-    generateBtn.disabled = false;
+    btn.disabled = false;
   }
-}
-
-generateBtn?.addEventListener("click", generateAssignment);
+});
+ 

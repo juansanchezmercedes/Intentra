@@ -1,8 +1,8 @@
 {
-  "name": "readbridge-monorepo",
+  "name": "veritycompany",
   "version": "1.0.0",
   "type": "module",
-  "description": "ReadBridge: Guided reading assignments for teachers.",
+  "description": "VerityCompany: Instructional adaptation copilot for teachers.",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js"
@@ -11,7 +11,8 @@
     "reading",
     "education",
     "teacher-tools",
-    "AI"
+    "AI",
+    "instructional-design"
   ],
   "author": "Juan Sanchez",
   "dependencies": {

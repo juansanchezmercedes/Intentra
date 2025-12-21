@@ -1,46 +1,61 @@
-/* Add these to your existing styles.css */
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+  color: #222;
+}
 
-.warning-banner {
-  background: #fff3cd;
-  border: 1px solid #ffc107;
-  color: #856404;
-  padding: 12px;
+header {
+  background: #1f2937;
+  color: white;
+  padding: 1.5rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+section {
+  background: white;
+  padding: 1.25rem;
   border-radius: 8px;
-  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+textarea {
+  width: 100%;
+  min-height: 220px;
+  padding: 0.75rem;
   font-size: 14px;
-  text-align: center;
-  font-weight: 600;
+  margin-top: 0.5rem;
 }
 
-.output-card-sub {
-  margin-bottom: 20px;
-  padding: 16px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #2563eb;
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: flex-end;
 }
 
-.teacher-notes {
-  border-left-color: #e74c3c;
-  background: #fff5f5;
-}
-
-.content-box {
-  line-height: 1.6;
-  color: #374151;
-  margin-top: 8px;
-}
-
-.btn-secondary {
-  background: #9ca3af;
+button {
+  background: #2563eb;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  margin-top: 10px;
 }
 
-.btn-secondary:hover {
-  background: #6b7280;
+button:hover {
+  background: #1e40af;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 13px;
+  color: #555;
 }

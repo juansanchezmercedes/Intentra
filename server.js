@@ -1,73 +1,64 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-
-import client from "./server/openaiClient.js";
-import { READBRIDGE_SYSTEM_PROMPT } from "./server/prompt.js";
+import OpenAI from "openai";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
-// Serve the frontend from /public so the same origin can call /generate
-app.use(express.static(path.join(__dirname, "public")));
+import { buildAdaptationPrompt } from "./prompt.js";
 
-app.post("/generate", async (req, res) => {
+app.post("/api/adapt", async (req, res) => {
   try {
     const {
-      readingFocus,
-      readingLevel,
-      topic,
-      gradeBand,
-      assignmentGoal
+      originalText,
+      preserveNotes,
+      instructionalGoal,
+      accessibilityRange,
+      supports
     } = req.body;
 
-    if (!readingFocus || !readingLevel || !topic) {
-      return res.status(400).json({ error: "Missing required fields" });
+    if (!originalText) {
+      return res.status(400).json({ error: "Original text is required." });
     }
 
-    const userPrompt = `
-Reading focus: ${readingFocus}
-Reading level: ${readingLevel}
-Grade band: ${gradeBand || "Not provided"}
-Student interest: ${topic}
-Assignment goal: ${assignmentGoal || "Not provided"}
+    const prompt = buildAdaptationPrompt({
+      originalText,
+      preserveNotes,
+      instructionalGoal,
+      accessibilityRange,
+      supports
+    });
 
-Return JSON with passage (HTML), vocab (HTML list), questions (HTML list), and notes (plain text).`;
-
-    const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4.1-mini",
       messages: [
-        { role: "system", content: READBRIDGE_SYSTEM_PROMPT },
-        { role: "user", content: userPrompt }
+        { role: "system", content: "You are an instructional adaptation copilot for teachers." },
+        { role: "user", content: prompt }
       ],
-      temperature: 0.6,
-      response_format: { type: "json_object" }
+      temperature: 0.4
     });
 
-    const parsed = JSON.parse(completion.choices[0].message.content || "{}");
+    const raw = completion.choices[0].message.content;
 
-    res.json({
-      passage: parsed.passage || "",
-      vocab: parsed.vocab || "",
-      questions: parsed.questions || "",
-      notes: parsed.notes || ""
-    });
+    // Expect structured JSON back
+    const parsed = JSON.parse(raw);
+
+    res.json(parsed);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Generation failed" });
+    res.status(500).json({ error: "Failed to generate adaptation." });
   }
 });
 
-// Fallback to index.html for any non-API route
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.listen(3000, () => {
-  console.log("ReadBridge server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Verity server running on port ${PORT}`);
 });
