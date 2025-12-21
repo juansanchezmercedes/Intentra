@@ -5,6 +5,16 @@ const btn = document.querySelector(".btn-primary");
 const status = document.querySelector(".status-text");
 const placeholder = document.querySelector(".output-placeholder");
 
+// Function to set up pill selection for optional context
+function setupPills() {
+  document.querySelectorAll(".pill").forEach(pill => {
+    pill.addEventListener("click", (e) => {
+      e.preventDefault();
+      pill.classList.toggle("active");
+    });
+  });
+}
+
 // Function to set up collapsible sections
 function setupCollapsibles() {
   document.querySelectorAll(".output-header").forEach(header => {
@@ -17,6 +27,9 @@ function setupCollapsibles() {
     });
   });
 }
+
+// Initialize pills on page load
+document.addEventListener("DOMContentLoaded", setupPills);
 
 btn.addEventListener("click", async () => {
   const originalText = document.querySelector("textarea").value;
