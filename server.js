@@ -21,7 +21,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-import { buildAdaptationPrompt } from "./prompt.js";
+import { buildAdaptationPrompt } from "./server/prompt.js";
 
 app.post("/api/adapt", async (req, res) => {
   try {
