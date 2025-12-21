@@ -1,0 +1,11 @@
+{
+  "buildCommand": "echo 'Static frontend. No build needed.'",
+  "outputDirectory": ".",
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "status": 307,
+      "headers": { "Location": "https://readbridge-backend.onrender.com/api/$1" }
+    }
+  ]
+}

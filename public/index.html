@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadBridge – Guided Reading Assignments</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+  :root {
+    --bg-main: #f5f8fc;
+    --card-bg: #ffffff;
+    --primary: #2563eb;
+    --primary-soft: #e0ebff;
+    --accent: #14b8a6;
+    --text-main: #0f172a;
+    --text-dim: #475569;
+    --border-soft: #e2e8f0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 20px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .hero {
+    text-align: center;
+    padding: 80px 10%;
+    background: linear-gradient(180deg, #eef4ff 0%, #f5f8fc 100%);
+  }
+
+  .hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    letter-spacing: -1px;
+    margin-bottom: 18px;
+  }
+
+  .hero p {
+    color: var(--text-dim);
+    max-width: 650px;
+    margin: 0 auto 30px;
+    font-size: 1.1rem;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 60px 7%;
+  }
+
+  .card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  }
+
+  h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    margin-top: 0;
+  }
+
+  .card-subtitle {
+    color: var(--text-dim);
+    margin-bottom: 30px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+
+  input, select {
+    background: #ffffff;
+    color: var(--text-main);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 0.95rem;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+
+  .helper-text {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .button-row {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  button {
+    border-radius: 999px;
+    border: none;
+    padding: 14px 32px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background: #1e4ed8;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: var(--primary);
+    border: 1px solid var(--border-soft);
+    margin-top: 30px;
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-soft);
+  }
+
+  .status-text {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  .output-placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .warning-banner {
+    background: #fff7ed;
+    color: #92400e;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    border: 1px solid #fde68a;
+  }
+
+  .output-card-sub {
+    margin-bottom: 26px;
+  }
+
+  .content-box {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border-soft);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    main {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ReadBridge</div>
+</header>
+
+<section class="hero">
+  <h1>Guided Reading, Made Simple</h1>
+  <p>
+    A teacher-controlled drafting tool for creating student-ready reading assignments.
+    You choose the skills. You review everything.
+  </p>
+</section>
+
+<main>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2>Create Assignment</h2>
+    <p class="card-subtitle">
+      Select the reading skills and expectations you are targeting for this student.
+    </p>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>Reading Focus</label>
+        <select id="readingFocus">
+          <option value="">Select focus…</option>
+          <option>Phonics (CVCe / CVVC)</option>
+          <option>Reading Comprehension</option>
+          <option>Sentence Writing</option>
+        </select>
+        <div class="helper-text">Choose the primary skill you are working on.</div>
+      </div>
+
+      <div class="field">
+        <label>Approximate Reading Level</label>
+        <input id="readingLevel" placeholder="e.g. Grade 3, Lexile 450" />
+        <div class="helper-text">Use your professional judgment.</div>
+      </div>
+
+      <div class="field">
+        <label>Student Interest</label>
+        <input id="topic" placeholder="e.g. football, animals, space" />
+        <div class="helper-text">Helps increase engagement.</div>
+      </div>
+
+      <div class="field">
+  <label>Grade Band</label>
+  <select id="gradeBand">
+    <option value="">Select band…</option>
+    <option>Early Elementary (K–1)</option>
+    <option>Lower Elementary (2–3)</option>
+    <option>Upper Elementary (4–5)</option>
+    <option>Middle School (6–7)</option>
+    <option>Upper Middle School (8)</option>
+    <option>High School (9–10)</option>
+    <option>High School (11–12)</option>
+  </select>
+  <div class="helper-text">Used for tone, vocabulary, and expectations.</div>
+</div>
+
+      <div class="field" style="grid-column: span 2;">
+        <label>Assignment Goal</label>
+        <input id="assignmentGoal" placeholder="e.g. Answer in complete sentences" />
+        <div class="helper-text">What you want the student to practice or demonstrate.</div>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button class="btn-primary" id="generateBtn">Generate Assignment</button>
+      <span class="status-text" id="status">Ready</span>
+    </div>
+  </section>
+
+  <!-- OUTPUT -->
+  <section class="card">
+    <h3>Generated Assignment</h3>
+
+    <div id="placeholder" class="output-placeholder">
+      Your generated reading assignment will appear here.
+    </div>
+
+    <div id="output" style="display:none;">
+      <div class="warning-banner">
+        ⚠️ Please review all content before assigning to students.
+      </div>
+
+      <div class="output-card-sub">
+        <h4>Reading Passage</h4>
+        <div class="content-box" id="passage"></div>
+      </div>
+
+      <div class="output-card-sub">
+        <h4>Vocabulary / Skill Practice</h4>
+        <div class="content-box" id="vocab"></div>
+      </div>
+
+      <div class="output-card-sub">
+        <h4>Comprehension Questions</h4>
+        <div class="content-box" id="questions"></div>
+      </div>
+
+      <div class="output-card-sub">
+        <h4>Teacher Notes</h4>
+        <div class="content-box" id="notes"></div>
+      </div>
+
+      <button class="btn-secondary" onclick="location.reload()">Create New Assignment</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Set backend URL from environment or window variable (Vercel env injection)
+  window.__BACKEND_URL = window.__BACKEND_URL || (
+    typeof process !== "undefined" && process.env.REACT_APP_BACKEND_URL
+      ? process.env.REACT_APP_BACKEND_URL
+      : "http://localhost:3000"
+  );
+</script>
+<script src="./app.js" defer></script>

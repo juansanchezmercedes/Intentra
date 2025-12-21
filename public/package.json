@@ -1,0 +1,9 @@
+{
+  "name": "readbridge-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Frontend is static HTML/CSS/JS. No build needed.'",
+    "start": "echo 'Use local dev server or deploy to Vercel.'"
+  }
+}
