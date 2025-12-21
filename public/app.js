@@ -64,12 +64,6 @@ btn.addEventListener("click", async () => {
 
     placeholder.innerHTML = `
       <div class="output-section">
-        <div class="warning-banner">
-          ⚠️ Review all adaptations before sharing with students.
-        </div>
-      </div>
-
-      <div class="output-section">
         <div class="output-header">
           <h4>Adapted Text (Draft)</h4>
           <span class="toggle-icon">▼</span>
