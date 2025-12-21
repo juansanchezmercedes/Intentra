@@ -1,4 +1,4 @@
-# VerityCompany
+# Intentra
 
 **Instructional Adaptation Copilot for Teachers**
 
