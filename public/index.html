@@ -322,11 +322,7 @@
 </main>
 
 <script>
-  // Set backend URL from environment or window variable (Vercel env injection)
-  window.__BACKEND_URL = window.__BACKEND_URL || (
-    typeof process !== "undefined" && process.env.REACT_APP_BACKEND_URL
-      ? process.env.REACT_APP_BACKEND_URL
-      : "http://localhost:3000"
-  );
+  // Set backend URL for the frontend; override by defining window.__BACKEND_URL before this script if needed.
+  window.__BACKEND_URL = window.__BACKEND_URL || "https://readbridge-backend.onrender.com";
 </script>
 <script src="./app.js" defer></script>

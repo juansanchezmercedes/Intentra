@@ -1,5 +1,5 @@
-// Backend URL: use env variable or fall back to localhost for dev
-const BACKEND_URL = window.__BACKEND_URL || "http://localhost:3000";
+// Backend URL: default to deployed Render backend; override via window.__BACKEND_URL if provided
+const BACKEND_URL = window.__BACKEND_URL || "https://readbridge-backend.onrender.com";
 
 // Grabs DOM elements once for reuse
 const generateBtn = document.getElementById("generateBtn");
