@@ -5,6 +5,19 @@ const btn = document.querySelector(".btn-primary");
 const status = document.querySelector(".status-text");
 const placeholder = document.querySelector(".output-placeholder");
 
+// Function to set up collapsible sections
+function setupCollapsibles() {
+  document.querySelectorAll(".output-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const contentBox = header.nextElementSibling;
+      const toggleIcon = header.querySelector(".toggle-icon");
+
+      contentBox.classList.toggle("collapsed");
+      toggleIcon.classList.toggle("collapsed");
+    });
+  });
+}
+
 btn.addEventListener("click", async () => {
   const originalText = document.querySelector("textarea").value;
   const preserveNotes = document.querySelectorAll("input")[0].value;
@@ -17,6 +30,7 @@ btn.addEventListener("click", async () => {
   }
 
   status.textContent = "Drafting supports…";
+  status.classList.add("loading");
   btn.disabled = true;
 
   try {
@@ -36,39 +50,70 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
 
     placeholder.innerHTML = `
-      <div class="warning-banner">
-        ⚠️ Review all adaptations before sharing with students.
+      <div class="output-section">
+        <div class="warning-banner">
+          ⚠️ Review all adaptations before sharing with students.
+        </div>
       </div>
 
-      <h4>Adapted Text (Draft)</h4>
-      <div class="content-box">${data.adaptedText}</div>
-
-      <h4>Supports Added</h4>
-      <div class="content-box">
-        <ul>${data.supportsAdded.map(s => `<li>${s}</li>`).join("")}</ul>
+      <div class="output-section">
+        <div class="output-header">
+          <h4>Adapted Text (Draft)</h4>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-box adapted-text">
+          ${data.adaptedText}
+        </div>
       </div>
 
-      <h4>Potential Meaning Drift</h4>
-      <div class="content-box">
-        ${
-          data.potentialDriftFlags.length === 0
-            ? "No significant risks detected. Review still recommended."
-            : data.potentialDriftFlags.map(f => `
-              <p><strong>${f.severity.toUpperCase()}</strong>: ${f.issue}<br/>
-              <em>${f.whyItMatters}</em></p>
-            `).join("")
-        }
+      <div class="output-section">
+        <div class="output-header">
+          <h4>Supports Added</h4>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-box">
+          <ul>${data.supportsAdded.map(s => `<li>${s}</li>`).join("")}</ul>
+        </div>
       </div>
 
-      <h4>Teacher Notes</h4>
-      <div class="content-box">${data.teacherNotes}</div>
+      <div class="output-section">
+        <div class="output-header">
+          <h4>Potential Meaning Drift</h4>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-box">
+          ${
+            data.potentialDriftFlags.length === 0
+              ? "<p>No significant risks detected. Review still recommended.</p>"
+              : data.potentialDriftFlags.map(f => `
+                <div class="drift-flag">
+                  <p><strong>${f.severity.toUpperCase()}</strong>: ${f.issue}</p>
+                  <p><em>${f.whyItMatters}</em></p>
+                </div>
+              `).join("")
+          }
+        </div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-header">
+          <h4>Teacher Notes</h4>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-box">
+          ${data.teacherNotes}
+        </div>
+      </div>
     `;
 
-    status.textContent = "Draft ready for review";
+    setupCollapsibles();
+    status.textContent = "✓ Draft ready for review";
+    status.classList.remove("loading");
 
   } catch (err) {
     console.error("Fetch error:", err);
     status.textContent = `Error: ${err.message || "Failed to connect to backend"}. Check console.`;
+    status.classList.remove("loading");
   } finally {
     btn.disabled = false;
   }
