@@ -450,12 +450,14 @@
     .shimmer-box {
       background: linear-gradient(
         90deg,
-        #f0f4f8 0%,
-        #e2e8f0 50%,
-        #f0f4f8 100%
+        #ffffff 0%,
+        #f3f4f6 25%,
+        #e5e7eb 50%,
+        #f3f4f6 75%,
+        #ffffff 100%
       );
       background-size: 200% 100%;
-      animation: shimmer 1.5s ease-in-out infinite;
+      animation: shimmer 2s ease-in-out infinite;
       border-radius: 12px;
       height: 80px;
       margin-bottom: 16px;
@@ -487,12 +489,9 @@
 </header>
 
 <section class="hero">
-  <h1>Differentiate in Minutes, Not Hours</h1>
+  <h1>Your Texts, Instantly Adapted for Every Learner</h1>
   <p>
-    Intentra is your intentional‑learning copilot — generating leveled, scaffolded, and 
-    interest‑aligned versions of any text while preserving the meaning that matters. 
-    Skip the endless rewriting, re‑leveling, and rebuilding of supports. Focus on teaching, 
-    and let Intentra handle the heavy lift.
+    Paste your original text and Intentra produces leveled, scaffolded, and support‑rich versions that stay true to your goals — no more manual rewriting
   </p>
 </section>
 
@@ -502,15 +501,13 @@
   <section class="card">
     <h2>Transform Any Text for Any Learner</h2>
     <p class="card-subtitle">
-      Paste the text you already use. Intentra generates multiple reading levels, phonics‑aligned
-      versions, symbol‑supported options, vocabulary supports, and scaffolds — all while keeping
-      the original intent intact.
+      Drop your text into the box. Intentra handles the adaptation so you can move straight into instruction.
     </p>
 
     <div class="field">
       <label>Original Text</label>
       <textarea rows="6" placeholder="Paste the passage, chapter excerpt, article, or assignment you want adapted…"></textarea>
-      <div class="helper-text">Intentra uses this as the anchor for all differentiated versions.</div>
+      <div class="helper-text">Intentra uses this text as the foundation for every adapted version.</div>
     </div>
 
     <div class="field">
@@ -553,8 +550,12 @@
     <h3>Your Adapted Versions & Review Notes</h3>
 
     <div class="output-placeholder">
-      Intentra will generate leveled texts, scaffolds, vocabulary supports, phonics-aligned word lists,
-      and meaning‑preservation checks here.
+      <div style="margin-top: 32px; width: 100%;">
+        <div class="shimmer-box"></div>
+        <div class="shimmer-box"></div>
+        <div class="shimmer-box"></div>
+        <div class="shimmer-box" style="height: 60px; margin-bottom: 0;"></div>
+      </div>
     </div>
 
   </section>
