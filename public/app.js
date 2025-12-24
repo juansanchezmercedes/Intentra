@@ -4,6 +4,9 @@ const BACKEND_URL = window.__BACKEND_URL || "https://readbridge-backend.onrender
 const btn = document.querySelector(".btn-primary");
 const status = document.querySelector(".status-text");
 const placeholder = document.querySelector(".output-placeholder");
+const fileInput = document.getElementById("fileInput");
+const textarea = document.querySelector("textarea");
+const fileNameDisplay = document.getElementById("fileName");
 
 // Function to set up pill selection for optional context
 function setupPills() {
@@ -28,8 +31,32 @@ function setupCollapsibles() {
   });
 }
 
-// Initialize pills on page load
-document.addEventListener("DOMContentLoaded", setupPills);
+// Function to handle file uploads
+function setupFileUpload() {
+  fileInput.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Show file name
+    fileNameDisplay.textContent = `✓ ${file.name} loaded`;
+    fileNameDisplay.classList.add("show");
+
+    try {
+      const text = await file.text();
+      textarea.value = text;
+      textarea.style.opacity = "1";
+    } catch (err) {
+      console.error("Error reading file:", err);
+      fileNameDisplay.textContent = "✗ Error reading file";
+    }
+  });
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", () => {
+  setupPills();
+  setupFileUpload();
+});
 
 btn.addEventListener("click", async () => {
   const originalText = document.querySelector("textarea").value;
